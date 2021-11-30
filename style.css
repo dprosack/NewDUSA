@@ -42,5 +42,8 @@ body,
   position: relative;
   top: 5%; 
   left: 5%;
-  
+}
+
+[v-cloak] {
+  display: none;
 }

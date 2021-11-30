@@ -1,5 +1,4 @@
 
-let mainFunc = () => {
     require([ "esri/Map",
       "esri/views/MapView",
       "esri/widgets/Sketch",
@@ -44,8 +43,8 @@ let mainFunc = () => {
                 editType: "New Roadbed",
                 county: "Tejas",
                 username: "DPROSACK",
-                newMiles: '',
-                result: 0,
+                newMiles: ''
+                
 
               },
             methods:{
@@ -56,7 +55,8 @@ let mainFunc = () => {
                     console.log("This is the previous total length: ",this.previousTotal)
                     let lengthMiles = geometryEngine.geodesicLength(event.graphic.geometry, "miles")
                     console.log("This is the current line length: ", parseFloat(lengthMiles.toFixed(3)));
-                    Vue.set(info.lineLength, 'length', this.previousTotal += parseFloat(lengthMiles.toFixed(3)))   
+                    Vue.set(info.lineLength, 'length', this.previousTotal += parseFloat(lengthMiles.toFixed(3)))
+                    Vue.set(info.lineLength, 'info', "created")   
                   }
                 });
               }
@@ -67,22 +67,29 @@ let mainFunc = () => {
                   if(event.state === "start"){
                     oldlengthMile = geometryEngine.geodesicLength(event.graphics[0].geometry, "miles")
                   }
+                  let newlengthMiles;
                   if(event.state === "complete"){
-                    let newlengthMiles = geometryEngine.geodesicLength(event.graphics[0].geometry, "miles")
-                    deltaLength = oldlengthMile - newlengthMiles
-    
-                    if(newlengthMiles > oldlengthMile){
-                      Vue.set(info.lineLength, 'length', this.previousTotal += parseFloat(deltaLength.toFixed(3)))
-                    }
-                    else{
-                      Vue.set(info.lineLength, 'length', this.previousTotal -= parseFloat(deltaLength.toFixed(3)))
-                    }
+                    newlengthMiles = geometryEngine.geodesicLength(event.graphics[0].geometry, "miles")
                   }
-               })
+
+                  console.log(oldlengthMile,newlengthMiles)
+                  deltaLength = oldlengthMile - newlengthMiles
+                  console.log(Math.abs(deltaLength));
+                  
+                  if(oldlengthMile < newlengthMiles){
+                    Vue.set(info.lineLength, 'length', this.previousTotal += Math.abs(parseFloat(deltaLength.toFixed(3))))
+                    console.log('add')
+                    Vue.set(info.lineLength, 'info', "updated")  
+                  }
+                  else if (oldlengthMile > newlengthMiles){
+                    Vue.set(info.lineLength, 'length', this.previousTotal -= Math.abs(parseFloat(deltaLength.toFixed(3))))
+                    console.log('subtract')
+                    Vue.set(info.lineLength, 'info', "updated")  
+                  }
+               });
                 console.log("new: ",x, "old: ",y)
               }
             },
           });
         });
     });
-}

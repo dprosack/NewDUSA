@@ -22,12 +22,6 @@
         name: "vue",
         location: "https://unpkg.com/vue@latest/dist/",
         main: "vue"
-      },
-
-      {
-        name: "bootstrap",
-        location: "https://unpkg.com/bootstrap-vue@latest/dist/",
-        main: "bootstrap"
       }
     ]
   };
@@ -41,18 +35,16 @@
   <div id="viewDiv" class="main"></div>
   <div id="mileage">
     <div id="info" class="esri-widget" >
-      <div>
+      <div >
         <h2>County Mileage</h2>
-        <p>County: {{county}} / User Name: {{username}}</p>
-        <p>Previous Total Mileage: {{countyTotal}}</p>
-        <p v-if="lineLength['length'] === 0 ? 0: lineLength['length']">Current Mileage: {{lineLength['length']}}</p>
+        <p v-cloak>County: {{county}} / User Name: {{username}}</p>
+        <p v-cloak>Previous Total Mileage: {{countyTotal}}</p>
+        <p v-if="lineLength['length'] === 0 ? 0: lineLength['length']" v-cloak>Current Mileage: {{lineLength['length']}}</p>
+      
       </div>
     </div>
-    <button class="btn btn-secondary" @click="complete()" id="addButton">{{addButton}}</button>
+    <button class="btn btn-secondary" @click="complete()" id="addButton" v-cloak>{{addButton}}</button>
   </div>
-  <script>
-    mainFunc();
-  </script>
 </body>
 
 </html>
