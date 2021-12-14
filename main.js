@@ -1,16 +1,17 @@
-
-let mainFunc = () => {
+    
     require([ "esri/Map",
       "esri/views/MapView",
       "esri/widgets/Sketch",
       "esri/layers/GraphicsLayer",
       "vue",
+      "vuetify",
       "esri/geometry/geometryEngine"], (
         Map,
         MapView,
         Sketch,
         GraphicsLayer,
         Vue,
+        Vuetify,
         geometryEngine
       ) => {
         const gLayer = new GraphicsLayer();
@@ -31,10 +32,19 @@ let mainFunc = () => {
           layer: gLayer,     
         });
 
-        mapView.when(() => {
+        //mapView.when(() => {
+          Vue.use(Vuetify);
+          // const nav = new Vue({
+          //   el:"#nav",
+          //   data: 
+          //   {
+          //     test: "some text"
+          //   }
+
+          // });
           const info = new Vue({
             el: "#mileage",
-            components: {bbutton: "b-button"},
+            //components: {bbutton: "b-button"},
             data: 
               {
                 addButton: 'Add Road',
@@ -46,6 +56,8 @@ let mainFunc = () => {
                 username: "DPROSACK",
                 newMiles: '',
                 result: 0,
+                dialog: false,
+                // isSidebarOpen: true
 
               },
             methods:{
@@ -59,7 +71,11 @@ let mainFunc = () => {
                     Vue.set(info.lineLength, 'length', this.previousTotal += parseFloat(lengthMiles.toFixed(3)))   
                   }
                 });
+              },
+              openDialog: function(){
+                return this.dialog = false;
               }
+              
             },
             watch:{
               previousTotal: function(x,y){
@@ -83,6 +99,8 @@ let mainFunc = () => {
               }
             },
           });
-        });
+          
+          
+          console.log(Vuetify);
+        //});
     });
-}
